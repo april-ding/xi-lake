@@ -11,6 +11,10 @@ var cameraControls;
 var sphereGroup, smallSphere;
 
 var meshLoad;
+
+var clock = new THREE.Clock();
+			var mixer;
+
 init();
 animate();
 
@@ -47,7 +51,7 @@ function init() {
     });
     groundMirror.position.y = 10;
     groundMirror.rotateX(-Math.PI / 2);
-    scene.add(groundMirror);
+    //scene.add(groundMirror);
 
     // var geometry = new THREE.PlaneBufferGeometry(100, 100);
     // var verticalMirror = new THREE.Reflector(geometry, {
@@ -93,23 +97,47 @@ function init() {
 
     /******* Model *********/
     var loader = new THREE.FBXLoader();
-    var flatMat = new THREE.MeshToonMaterial({
-        color: 0xf3a9f9
-        // map: imgTexture,
-        // bumpMap: imgTexture,
-        // bumpScale: bumpScale,
-        // color: diffuseColor,
-        // specular: specularColor,
-        // reflectivity: beta,
-        // shininess: specularShininess,
-        // envMap: alphaIndex % 2 === 0 ? null : reflectionCube
+    var roomMat = new THREE.MeshToonMaterial({
+        color: 0xb3c4aa,
+
     });
 
 
-    loader.load('img/room2.fbx', function(object) {
-        object.scale.x += 40;
-        object.scale.y += 40;
-        object.scale.z += 40;
+    loader.load('img/room1.fbx', function(object) {
+        object.scale.x += 5;
+        object.scale.y += 5;
+        object.scale.z += 5;
+        //mixer = new THREE.AnimationMixer(object);
+        //var action = mixer.clipAction(object.animations[0]);
+        //action.play();
+        //action.timeScale =  0.2;
+        object.traverse(function(child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material = roomMat;
+            }
+            // if ( child instanceof THREE.Mesh ) {
+            //     child.material = material;
+            // }
+        });
+
+        meshLoad = object;
+        scene.add(object);
+    });
+
+    var frame = new THREE.FBXLoader();
+    var flatMat = new THREE.MeshToonMaterial({
+        color: 0xf4f8ff,
+        transparent: true,
+        opacity: 0.6
+
+    });
+
+    frame.load('img/frame1.fbx', function(object) {
+        object.scale.x += 5;
+        object.scale.y += 5;
+        object.scale.z += 5;
         //mixer = new THREE.AnimationMixer(object);
         //var action = mixer.clipAction(object.animations[0]);
         //action.play();
@@ -125,7 +153,32 @@ function init() {
             // }
         });
 
-        meshLoad = object;
+        scene.add(object);
+    });
+
+    var person = new THREE.FBXLoader();
+    var personMat = new THREE.MeshToonMaterial({
+        color: 0xf9b9a7,
+        skinning: true,
+
+    });
+
+    frame.load('img/on-phone-2.fbx', function(object) {
+        object.scale.x *= 0.3;
+        object.scale.y *= 0.3;
+        object.scale.z *= 0.3;
+        mixer = new THREE.AnimationMixer(object);
+        var action = mixer.clipAction(object.animations[0]);
+        action.play();
+        //action.timeScale =  0.2;
+        object.traverse(function(child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material = personMat;
+            }
+        });
+
         scene.add(object);
     });
 
@@ -134,34 +187,34 @@ function init() {
 
 
 
+    // sphereGroup = new THREE.Object3D();
+    // scene.add(sphereGroup);
+    // var geometry = new THREE.CylinderBufferGeometry(0.1, 15 * Math.cos(Math.PI / 180 * 30), 0.1, 24, 1);
+    // var material = new THREE.MeshToonMaterial({
+    //     color: 0xa9c5f9,
+    //     //emissive: 0xa9c5f9,
+    //     flatShading: true
+    // });
+    // var sphereCap = new THREE.Mesh(geometry, material);
+    // sphereCap.position.y = -15 * Math.sin(Math.PI / 180 * 30) - 0.05;
+    // sphereCap.rotateX(-Math.PI);
+    // var geometry = new THREE.SphereBufferGeometry(15, 24, 24, Math.PI / 2, Math.PI * 2, 0, Math.PI / 180 * 120);
+    // var halfSphere = new THREE.Mesh(geometry, material);
+    // halfSphere.add(sphereCap);
+    // halfSphere.rotateX(-Math.PI / 180 * 135);
+    // halfSphere.rotateZ(-Math.PI / 180 * 20);
+    // halfSphere.position.y = 7.5 + 15 * Math.sin(Math.PI / 180 * 30);
+    // sphereGroup.add(halfSphere);
+    // var geometry = new THREE.IcosahedronBufferGeometry(5, 0);
+    // var material = new THREE.MeshToonMaterial({
+    //     color: 0xfffdc6,
+    //     //emissive: 0xfffdc6,
+    //     flatShading: true
+    // });
+    // smallSphere = new THREE.Mesh(geometry, material);
+    // scene.add(smallSphere);
 
 
-    sphereGroup = new THREE.Object3D();
-    scene.add(sphereGroup);
-    var geometry = new THREE.CylinderBufferGeometry(0.1, 15 * Math.cos(Math.PI / 180 * 30), 0.1, 24, 1);
-    var material = new THREE.MeshToonMaterial({
-        color: 0xa9c5f9,
-        //emissive: 0xa9c5f9,
-        flatShading: true
-    });
-    var sphereCap = new THREE.Mesh(geometry, material);
-    sphereCap.position.y = -15 * Math.sin(Math.PI / 180 * 30) - 0.05;
-    sphereCap.rotateX(-Math.PI);
-    var geometry = new THREE.SphereBufferGeometry(15, 24, 24, Math.PI / 2, Math.PI * 2, 0, Math.PI / 180 * 120);
-    var halfSphere = new THREE.Mesh(geometry, material);
-    halfSphere.add(sphereCap);
-    halfSphere.rotateX(-Math.PI / 180 * 135);
-    halfSphere.rotateZ(-Math.PI / 180 * 20);
-    halfSphere.position.y = 7.5 + 15 * Math.sin(Math.PI / 180 * 30);
-    sphereGroup.add(halfSphere);
-    var geometry = new THREE.IcosahedronBufferGeometry(5, 0);
-    var material = new THREE.MeshToonMaterial({
-        color: 0xfffdc6,
-        //emissive: 0xfffdc6,
-        flatShading: true
-    });
-    smallSphere = new THREE.Mesh(geometry, material);
-    scene.add(smallSphere);
     // walls
     // var planeTop = new THREE.Mesh(planeGeo, new THREE.MeshPhongMaterial({
     //     color: 0xffffff
@@ -170,11 +223,11 @@ function init() {
     // planeTop.rotateX(Math.PI / 2);
     // scene.add(planeTop);
 
-    var planeBottom = new THREE.Mesh(planeGeo, new THREE.MeshPhongMaterial({
-        color: 0xffffff
-    }));
-    planeBottom.rotateX(-Math.PI / 2);
-    scene.add(planeBottom);
+    // var planeBottom = new THREE.Mesh(planeGeo, new THREE.MeshPhongMaterial({
+    //     color: 0xffffff
+    // }));
+    // planeBottom.rotateX(-Math.PI / 2);
+    // scene.add(planeBottom);
     // var planeFront = new THREE.Mesh(planeGeo, new THREE.MeshPhongMaterial({
     //     color: 0x7f7fff
     // }));
@@ -253,15 +306,7 @@ function init() {
 
 function animate() {
     requestAnimationFrame(animate);
-    var timer = Date.now() * 0.01;
-    sphereGroup.rotation.y -= 0.002;
-    smallSphere.position.set(
-        Math.cos(timer * 0.1) * 30,
-        Math.abs(Math.cos(timer * 0.2)) * 20 + 5,
-        Math.sin(timer * 0.1) * 30
-    );
-    smallSphere.rotation.y = (Math.PI / 2) - timer * 0.1;
-    smallSphere.rotation.z = timer * 0.8;
+    //var timer = Date.now() * 0.01;
 
     // meshLoad.position.set(
     //     Math.cos(timer * 0.1) * 30,
@@ -270,5 +315,8 @@ function animate() {
     // );
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
+
+    var delta = clock.getDelta();
+	if ( mixer ) mixer.update( delta );
     renderer.render(scene, camera);
 }
