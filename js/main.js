@@ -18,7 +18,8 @@ var clock = new THREE.Clock();
 var mixer;
 
 var cube1;
-var cubeObject;
+var frameObject, roomObject, personObject;
+var cubeGroup;
 
 
 // ======================================================================
@@ -26,14 +27,16 @@ var cubeObject;
 // ======================================================================
 //cube class
 class Cube {
-    constructor() {
+
+    constructor(framePath, roomPath, personPath) {
         //make frame
-        this.frame = new Frame('img/frame1.fbx');
+        this.frame = new Frame(framePath);
         //make room Scene
-        this.room = new Room('img/room1.fbx');
+        this.room = new Room(roomPath);
         //make animated person
-        this.person = new Person('img/on-phone-2.fbx');
+        this.person = new Person(personPath);
     }
+
 
     //getter functions
 
@@ -42,9 +45,9 @@ class Cube {
     //methods
     loadAll() {
         // var cubeGroup = new THREE.Group();
-        // cubeGroup.add( this.frame );
-        // cubeGroup.add( this.room );
-        // cubeGroup.add( this.person );
+        // cubeGroup.add( frameObject );
+        // cubeGroup.add( roomObject );
+        // cubeGroup.add( personObject );
         //
         // scene.add(cubeGroup);
 
@@ -76,7 +79,8 @@ class Frame {
     load() {
         var self = this;
         this.frame.load(this.model, function(object) {
-            cubeObject = object;
+            frameObject = object;
+
             object.scale.x += 5;
             object.scale.y += 5;
             object.scale.z += 5;
@@ -89,31 +93,9 @@ class Frame {
             });
 
 
-            scene.add(object);
+            scene.add(frameObject);
         });
     }
-
-    // cubeObject = new THREE.Object3D();
-    // scene.add(cubeObject);
-    //
-    // var loaderModello = new THREE.OBJLoader(manager);
-    // var OBJPath = 'spaceCraft3.obj';
-    // //spaceCraft = loaderModello.load(OBJPath, function(object) {
-    // loaderModello.load(OBJPath, function(object) {
-    //
-    //     //spaceCraft = object;
-    //     object.traverse(function(child) {
-    //         if (child instanceof THREE.Mesh) {
-    //             child.material.map = texture;
-    //         }
-    //     });
-    //     var scaleFactor = 7;
-    //     spaceCraft.scale.set(scaleFactor, scaleFactor, scaleFactor);
-    //     spaceCraft.rotation.set(0, 9.42, 0);
-    //     spaceCraft.model = object;
-    //     spaceCraft.add(spaceCraft.model);
-    //
-    // }, onProgress, onError);
 
 
 }
@@ -138,6 +120,7 @@ class Room {
     load() {
         var self = this;
         this.room.load(this.model, function(object) {
+            roomObject = object;
             object.scale.x += 5;
             object.scale.y += 5;
             object.scale.z += 5;
@@ -148,7 +131,7 @@ class Room {
                     child.material = self.material;
                 }
             });
-            scene.add(object);
+            scene.add(roomObject);
         });
     }
 }
@@ -172,6 +155,7 @@ class Person {
     load() {
         var self = this;
         this.person.load(this.model, function(object) {
+            personObject = object;
             object.scale.x *= 0.3;
             object.scale.y *= 0.3;
             object.scale.z *= 0.3;
@@ -186,7 +170,7 @@ class Person {
                     child.material = self.material;
                 }
             });
-            scene.add(object);
+            scene.add(personObject);
         });
     }
 }
@@ -284,13 +268,10 @@ function createLights() {
 }
 
 function createCubes() {
-    cube1 = new Cube();
+    // cube1 = new Cube();
+    cube1 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx');
     cube1.loadAll();
 
-}
-
-function rotateCube(scene) {
-    cube.rotation.x -= SPEED * 2;
 }
 
 function animate() {
@@ -307,8 +288,11 @@ function animate() {
     var delta = clock.getDelta();
     if (mixer) mixer.update(delta);
 
-    //make cube rotate
-    cubeObject.rotation.y += 0.01;
+    //make frame rotate
+    frameObject.rotation.y += 0.01;
+    roomObject.rotation.y += 0.01;
+    personObject.rotation.y += 0.01;
+
 
     renderer.render(scene, camera);
 
