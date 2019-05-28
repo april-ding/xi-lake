@@ -175,6 +175,8 @@ function init() {
     createCubes();
     //make cube rotate
     //make many instances of cubes
+
+
 }
 
 function createScene() {
@@ -190,9 +192,9 @@ function createScene() {
     scene = new THREE.Scene();
     // camera
     camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-    camera.position.set(0, 75, 160);
+    camera.position.set(75, 75, 200);
     cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
-    cameraControls.target.set(0, 40, 0);
+    cameraControls.target.set(0, 30, 0);
     cameraControls.maxDistance = 800;
     cameraControls.minDistance = 10;
     cameraControls.update();
@@ -253,6 +255,8 @@ function createCubes() {
     cube1.loadAll();
 
 }
+
+
 
 function animate() {
     requestAnimationFrame(animate);
