@@ -15,7 +15,7 @@ var cameraControls;
 var hemisphereLight, shadowLight;
 //for animations
 var clock = new THREE.Clock();
-var mixer;
+var mixer = [];
 
 var cube0, cube1;
 var frameObject = [],
@@ -164,8 +164,8 @@ class Person {
             object.scale.x *= 0.3;
             object.scale.y *= 0.3;
             object.scale.z *= 0.3;
-            mixer = new THREE.AnimationMixer(object);
-            var action = mixer.clipAction(object.animations[0]);
+            mixer.push(new THREE.AnimationMixer(object));
+            var action = mixer[index].clipAction(object.animations[0]);
             action.play();
             //action.timeScale =  0.2; //controls the speed of the animation
             object.traverse((child) => {
@@ -299,9 +299,12 @@ function animate() {
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
     var delta = clock.getDelta();
-    if (mixer){
-        mixer.update(delta);
+    for(var index = 0; index < 2; index ++){
+        if (mixer[index]){
+            mixer[index].update(delta);
+        }
     }
+
 
     //offset cube1
     frameObject[1].position.x = 100;
