@@ -17,8 +17,10 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer;
 
-var cube1;
-var frameObject, roomObject, personObject;
+var cube0, cube1;
+var frameObject = [],
+    roomObject = [],
+    personObject = [];
 var cubeGroup;
 
 
@@ -28,13 +30,15 @@ var cubeGroup;
 //cube class
 class Cube {
 
-    constructor(framePath, roomPath, personPath) {
+    constructor(framePath, roomPath, personPath, index) {
         //make frame
         this.frame = new Frame(framePath);
         //make room Scene
         this.room = new Room(roomPath);
         //make animated person
         this.person = new Person(personPath);
+        //index
+        this.index = index;
     }
 
 
@@ -51,9 +55,9 @@ class Cube {
         //
         // scene.add(cubeGroup);
 
-        this.frame.load();
-        this.room.load();
-        this.person.load();
+        this.frame.load(this.index);
+        this.room.load(this.index);
+        this.person.load(this.index);
     }
 }
 
@@ -76,10 +80,11 @@ class Frame {
     //setter functions
 
     //methods
-    load() {
+    load(index) {
+
         var self = this;
         this.frame.load(this.model, function(object) {
-            frameObject = object;
+            frameObject.push(object);
 
             object.scale.x += 5;
             object.scale.y += 5;
@@ -93,7 +98,7 @@ class Frame {
             });
 
 
-            scene.add(frameObject);
+            scene.add(frameObject[index]);
         });
     }
 
@@ -117,10 +122,10 @@ class Room {
     //setter functions
 
     //methods
-    load() {
+    load(index) {
         var self = this;
         this.room.load(this.model, function(object) {
-            roomObject = object;
+            roomObject.push(object);
             object.scale.x += 5;
             object.scale.y += 5;
             object.scale.z += 5;
@@ -131,7 +136,7 @@ class Room {
                     child.material = self.material;
                 }
             });
-            scene.add(roomObject);
+            scene.add(roomObject[index]);
         });
     }
 }
@@ -152,10 +157,10 @@ class Person {
     //setter functions
 
     //methods
-    load() {
+    load(index) {
         var self = this;
         this.person.load(this.model, function(object) {
-            personObject = object;
+            personObject.push(object);
             object.scale.x *= 0.3;
             object.scale.y *= 0.3;
             object.scale.z *= 0.3;
@@ -170,7 +175,7 @@ class Person {
                     child.material = self.material;
                 }
             });
-            scene.add(personObject);
+            scene.add(personObject[index]);
         });
     }
 }
@@ -194,6 +199,10 @@ function init() {
     createLights();
     createCubes();
     //make many instances of cubes
+
+    // frameObject[1].position.x += 50;
+    // roomObject[1].position.x += 50;
+    // personObject[1].position.x += 50;
 
 }
 
@@ -269,12 +278,16 @@ function createLights() {
 
 function createCubes() {
     // cube1 = new Cube();
-    cube1 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx');
+    cube0 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', 0);
+    cube0.loadAll();
+
+    cube1 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', 1);
     cube1.loadAll();
 
 }
 
 function animate() {
+
     requestAnimationFrame(animate);
     //var timer = Date.now() * 0.01;
 
@@ -286,12 +299,23 @@ function animate() {
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
     var delta = clock.getDelta();
-    if (mixer) mixer.update(delta);
+    if (mixer){
+        mixer.update(delta);
+    }
 
-    //make frame rotate
-    frameObject.rotation.y += 0.01;
-    roomObject.rotation.y += 0.01;
-    personObject.rotation.y += 0.01;
+    //offset cube1
+    frameObject[1].position.x = 100;
+    roomObject[1].position.x = 100;
+    personObject[1].position.x = 100;
+
+    //make cubes rotate
+    frameObject[0].rotation.y += 0.01;
+    roomObject[0].rotation.y += 0.01;
+    personObject[0].rotation.y += 0.01;
+
+    frameObject[1].rotation.y += 0.01;
+    roomObject[1].rotation.y += 0.01;
+    personObject[1].rotation.y += 0.01;
 
 
     renderer.render(scene, camera);
