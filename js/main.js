@@ -17,16 +17,18 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer;
 
-
+// ======================================================================
+// classes
+// ======================================================================
 //cube class
 class Cube {
-    constructor(){
+    constructor() {
         //make frame
-        this.frame = new Frame();
+        this.frame = new Frame('img/frame1.fbx');
         //make room Scene
-        //this.room = new Room();
+        this.room = new Room('img/room1.fbx');
         //make animated person
-        //this.person = new Person();
+        this.person = new Person('img/on-phone-2.fbx');
     }
 
     //getter functions
@@ -34,18 +36,17 @@ class Cube {
     //setter functions
 
     //methods
-    loadEverything(){
-        console.log('load everything function is called');
-        this.frame.loading();
+    loadAll() {
+        this.frame.load();
+        this.room.load();
+        this.person.load();
     }
-
-    //static methods (called on class but not on child classes)
-
 }
 
 //frame class
 class Frame {
-    constructor(){
+    constructor(model) {
+        this.model = model;
         this.frame = new THREE.FBXLoader();
         this.material = new THREE.MeshToonMaterial({
             color: 0xf4f8ff,
@@ -59,72 +60,98 @@ class Frame {
     //getter functions
 
     //setter functions
+
     //methods
-
-
-    loading(){
-            console.log(this.frame);
-            var self = this;
-
-
-            console.log('frame loading function is executed');
-            //
-            this.frame.load('img/frame1.fbx', function(object) {
-
-                console.log('load function ');
-                object.scale.x += 5;
-                object.scale.y += 5;
-                object.scale.z += 5;
-
-
-                object.traverse((child)=> {
-                    console.log('travese child ' + child);
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        console.log(3);
-
-                        child.material = self.material;
-
-                    }
-                });
-
-                // object.traverse(function(child) {
-                //     console.log('travese child ' + child);
-                //     if (child.isMesh) {
-                //         child.castShadow = true;
-                //         child.receiveShadow = true;
-                //         console.log(3);
-                //
-                //         //child.material = this.material;
-                //
-                //     }
-                // });
-
-                scene.add(object);
+    load() {
+        var self = this;
+        this.frame.load(this.model, function(object) {
+            object.scale.x += 5;
+            object.scale.y += 5;
+            object.scale.z += 5;
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    child.material = self.material;
+                }
             });
+            scene.add(object);
+        });
+    }
+}
 
-        // this.frame.load('img/frame1.fbx', function(object) {
-        //     // console.log('frame loading function is executed');
-        //
-        //     object.scale.x += 5;
-        //     object.scale.y += 5;
-        //     object.scale.z += 5;
-        //     object.traverse(function(child) {
-        //         if (child.isMesh) {
-        //             child.castShadow = true;
-        //             child.receiveShadow = true;
-        //             child.material = this.material;
-        //         }
-        //     });
-        //
-        //     scene.add(object);
-        // });
+//room class
+class Room {
+    constructor(model) {
+        this.model = model;
+        this.room = new THREE.FBXLoader();
+        this.material = new THREE.MeshToonMaterial({
+            color: 0xb3c4aa,
+            skinning: true
+        });
 
     }
 
+    //getter functions
+
+    //setter functions
+
+    //methods
+    load() {
+        var self = this;
+        this.room.load(this.model, function(object) {
+            object.scale.x += 5;
+            object.scale.y += 5;
+            object.scale.z += 5;
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    child.material = self.material;
+                }
+            });
+            scene.add(object);
+        });
+    }
 }
 
+//room class
+class Person {
+    constructor(model) {
+        this.model = model;
+        this.person = new THREE.FBXLoader();
+        this.material = new THREE.MeshToonMaterial({
+            color: 0xf9b9a7,
+            skinning: true
+        });
+    }
+
+    //getter functions
+
+    //setter functions
+
+    //methods
+    load() {
+        var self = this;
+        this.person.load(this.model, function(object) {
+            object.scale.x *= 0.3;
+            object.scale.y *= 0.3;
+            object.scale.z *= 0.3;
+            mixer = new THREE.AnimationMixer(object);
+            var action = mixer.clipAction(object.animations[0]);
+            action.play();
+            //action.timeScale =  0.2; //controls the speed of the animation
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    child.material = self.material;
+                }
+            });
+            scene.add(object);
+        });
+    }
+}
 
 // ======================================================================
 // call functions
@@ -146,12 +173,8 @@ function init() {
     createScene();
     createLights();
     createCubes();
-
     //make cube rotate
     //make many instances of cubes
-
-
-
 }
 
 function createScene() {
@@ -227,86 +250,7 @@ function createLights() {
 function createCubes() {
 
     var cube1 = new Cube();
-    cube1.loadEverything();
-    //cube1.position.x += 2;
-    //scene.add(cube1);
-
-    /********************* Room Scene ***********************/
-    var loader = new THREE.FBXLoader();
-    var roomMat = new THREE.MeshToonMaterial({
-        color: 0xb3c4aa,
-
-    });
-
-    loader.load('img/room1.fbx', function(object) {
-        object.scale.x += 5;
-        object.scale.y += 5;
-        object.scale.z += 5;
-        object.traverse(function(child) {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.material = roomMat;
-            }
-        });
-
-        meshLoad = object;
-        scene.add(object);
-    });
-
-    /********************* Cube Frame ***********************/
-
-
-
-    // var frame = new THREE.FBXLoader();
-    // var flatMat = new THREE.MeshToonMaterial({
-    //     color: 0xf4f8ff,
-    //     transparent: true,
-    //     opacity: 0.6
-    //
-    // });
-    //
-    // frame.load('img/frame1.fbx', function(object) {
-    //     object.scale.x += 5;
-    //     object.scale.y += 5;
-    //     object.scale.z += 5;
-    //     object.traverse(function(child) {
-    //         if (child.isMesh) {
-    //             child.castShadow = true;
-    //             child.receiveShadow = true;
-    //             child.material = flatMat;
-    //         }
-    //     });
-    //
-    //     scene.add(object);
-    // });
-
-    /********************* Person ***********************/
-    var person = new THREE.FBXLoader();
-    var personMat = new THREE.MeshToonMaterial({
-        color: 0xf9b9a7,
-        skinning: true,
-
-    });
-
-    person.load('img/on-phone-2.fbx', function(object) {
-        object.scale.x *= 0.3;
-        object.scale.y *= 0.3;
-        object.scale.z *= 0.3;
-        mixer = new THREE.AnimationMixer(object);
-        var action = mixer.clipAction(object.animations[0]);
-        action.play();
-        //action.timeScale =  0.2; //controls the speed of the animation
-        object.traverse(function(child) {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.material = personMat;
-            }
-        });
-
-        scene.add(object);
-    });
+    cube1.loadAll();
 
 }
 
