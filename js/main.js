@@ -17,11 +17,11 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer = [];
 
-var cube0, cube1;
+
+var cube = [];
 var frameObject = [],
     roomObject = [],
     personObject = [];
-var cubeGroup;
 
 
 // ======================================================================
@@ -30,7 +30,7 @@ var cubeGroup;
 //cube class
 class Cube {
 
-    constructor(framePath, roomPath, personPath, index) {
+    constructor(framePath, roomPath, personPath, i) {
         //make frame
         this.frame = new Frame(framePath);
         //make room Scene
@@ -38,7 +38,7 @@ class Cube {
         //make animated person
         this.person = new Person(personPath);
         //index
-        this.index = index;
+        this.i = i;
     }
 
 
@@ -48,16 +48,10 @@ class Cube {
 
     //methods
     loadAll() {
-        // var cubeGroup = new THREE.Group();
-        // cubeGroup.add( frameObject );
-        // cubeGroup.add( roomObject );
-        // cubeGroup.add( personObject );
-        //
-        // scene.add(cubeGroup);
 
-        this.frame.load(this.index);
-        this.room.load(this.index);
-        this.person.load(this.index);
+        this.frame.load(this.i);
+        this.room.load(this.i);
+        this.person.load(this.i);
     }
 }
 
@@ -80,7 +74,7 @@ class Frame {
     //setter functions
 
     //methods
-    load(index) {
+    load(i) {
 
         var self = this;
         this.frame.load(this.model, function(object) {
@@ -98,7 +92,7 @@ class Frame {
             });
 
 
-            scene.add(frameObject[index]);
+            scene.add(frameObject[i]);
         });
     }
 
@@ -122,7 +116,7 @@ class Room {
     //setter functions
 
     //methods
-    load(index) {
+    load(i) {
         var self = this;
         this.room.load(this.model, function(object) {
             roomObject.push(object);
@@ -136,7 +130,7 @@ class Room {
                     child.material = self.material;
                 }
             });
-            scene.add(roomObject[index]);
+            scene.add(roomObject[i]);
         });
     }
 }
@@ -157,7 +151,7 @@ class Person {
     //setter functions
 
     //methods
-    load(index) {
+    load(i) {
         var self = this;
         this.person.load(this.model, function(object) {
             personObject.push(object);
@@ -165,7 +159,7 @@ class Person {
             object.scale.y *= 0.3;
             object.scale.z *= 0.3;
             mixer.push(new THREE.AnimationMixer(object));
-            var action = mixer[index].clipAction(object.animations[0]);
+            var action = mixer[i].clipAction(object.animations[0]);
             action.play();
             //action.timeScale =  0.2; //controls the speed of the animation
             object.traverse((child) => {
@@ -175,7 +169,7 @@ class Person {
                     child.material = self.material;
                 }
             });
-            scene.add(personObject[index]);
+            scene.add(personObject[i]);
         });
     }
 }
@@ -198,11 +192,6 @@ function init() {
     createScene();
     createLights();
     createCubes();
-    //make many instances of cubes
-
-    // frameObject[1].position.x += 50;
-    // roomObject[1].position.x += 50;
-    // personObject[1].position.x += 50;
 
 }
 
@@ -277,12 +266,18 @@ function createLights() {
 }
 
 function createCubes() {
-    // cube1 = new Cube();
-    cube0 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', 0);
-    cube0.loadAll();
+    for(var i = 0; i < 2; i++){
+        cube.push(new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', i));
+        console.log('cube ' + i + ' is pushed');
+    }
 
-    cube1 = new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', 1);
-    cube1.loadAll();
+    for(var i = 0; i < 2; i++){
+        cube[i].loadAll();
+        console.log('cube ' + i + ' is loaded');
+    }
+
+
+
 
 }
 
@@ -299,9 +294,9 @@ function animate() {
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
     var delta = clock.getDelta();
-    for(var index = 0; index < 2; index ++){
-        if (mixer[index]){
-            mixer[index].update(delta);
+    for(var i = 0; i < 2; i ++){
+        if (mixer[i]){
+            mixer[i].update(delta);
         }
     }
 
@@ -312,6 +307,7 @@ function animate() {
     personObject[1].position.x = 100;
 
     //make cubes rotate
+
     frameObject[0].rotation.y += 0.01;
     roomObject[0].rotation.y += 0.01;
     personObject[0].rotation.y += 0.01;
