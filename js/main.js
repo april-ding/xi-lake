@@ -266,12 +266,12 @@ function createLights() {
 }
 
 function createCubes() {
-    for(var i = 0; i < 2; i++){
+    for(var i = 0; i < 3; i++){
         cube.push(new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', i));
         console.log('cube ' + i + ' is pushed');
     }
 
-    for(var i = 0; i < 2; i++){
+    for(var i = 0; i < 3; i++){
         cube[i].loadAll();
         console.log('cube ' + i + ' is loaded');
     }
@@ -294,7 +294,7 @@ function animate() {
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
     var delta = clock.getDelta();
-    for(var i = 0; i < 2; i ++){
+    for(var i = 0; i < 3; i ++){
         if (mixer[i]){
             mixer[i].update(delta);
         }
@@ -306,15 +306,35 @@ function animate() {
     roomObject[1].position.x = 100;
     personObject[1].position.x = 100;
 
+    frameObject[1].position.z = -200;
+    roomObject[1].position.z = -200;
+    personObject[1].position.z = -200;
+
+    frameObject[1].position.y = -50;
+    roomObject[1].position.y = -50;
+    personObject[1].position.y = -50;
+
+    frameObject[2].position.x = -200;
+    roomObject[2].position.x = -200;
+    personObject[2].position.x = -200;
+
+    frameObject[2].position.z = -50;
+    roomObject[2].position.z = -50;
+    personObject[2].position.z = -50;
+
     //make cubes rotate
 
     frameObject[0].rotation.y += 0.01;
     roomObject[0].rotation.y += 0.01;
     personObject[0].rotation.y += 0.01;
 
-    frameObject[1].rotation.y += 0.01;
-    roomObject[1].rotation.y += 0.01;
-    personObject[1].rotation.y += 0.01;
+    frameObject[1].rotation.y += -0.01;
+    roomObject[1].rotation.y += -0.01;
+    personObject[1].rotation.y += -0.01;
+
+    frameObject[2].rotation.y += -0.01;
+    roomObject[2].rotation.y += -0.01;
+    personObject[2].rotation.y += -0.01;
 
 
     renderer.render(scene, camera);
