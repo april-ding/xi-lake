@@ -12,10 +12,119 @@ var FAR = 500;
 var camera, scene, renderer;
 var cameraControls;
 //lights
-
+var hemisphereLight, shadowLight;
 //for animations
 var clock = new THREE.Clock();
 var mixer;
+
+
+//cube class
+class Cube {
+    constructor(){
+        //make frame
+        this.frame = new Frame();
+        //make room Scene
+        //this.room = new Room();
+        //make animated person
+        //this.person = new Person();
+    }
+
+    //getter functions
+
+    //setter functions
+
+    //methods
+    loadEverything(){
+        console.log('load everything function is called');
+        this.frame.loading();
+    }
+
+    //static methods (called on class but not on child classes)
+
+}
+
+//frame class
+class Frame {
+    constructor(){
+        this.frame = new THREE.FBXLoader();
+        this.material = new THREE.MeshToonMaterial({
+            color: 0xf4f8ff,
+            transparent: true,
+            opacity: 0.6,
+            skinning: true
+
+        });
+    }
+
+    //getter functions
+
+    //setter functions
+    //methods
+
+
+    loading(){
+            console.log(this.frame);
+            var self = this;
+
+
+            console.log('frame loading function is executed');
+            //
+            this.frame.load('img/frame1.fbx', function(object) {
+
+                console.log('load function ');
+                object.scale.x += 5;
+                object.scale.y += 5;
+                object.scale.z += 5;
+
+
+                object.traverse((child)=> {
+                    console.log('travese child ' + child);
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        console.log(3);
+
+                        child.material = self.material;
+
+                    }
+                });
+
+                // object.traverse(function(child) {
+                //     console.log('travese child ' + child);
+                //     if (child.isMesh) {
+                //         child.castShadow = true;
+                //         child.receiveShadow = true;
+                //         console.log(3);
+                //
+                //         //child.material = this.material;
+                //
+                //     }
+                // });
+
+                scene.add(object);
+            });
+
+        // this.frame.load('img/frame1.fbx', function(object) {
+        //     // console.log('frame loading function is executed');
+        //
+        //     object.scale.x += 5;
+        //     object.scale.y += 5;
+        //     object.scale.z += 5;
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {
+        //             child.castShadow = true;
+        //             child.receiveShadow = true;
+        //             child.material = this.material;
+        //         }
+        //     });
+        //
+        //     scene.add(object);
+        // });
+
+    }
+
+}
+
 
 // ======================================================================
 // call functions
@@ -23,15 +132,25 @@ var mixer;
 init();
 animate();
 
+
+
 // ======================================================================
 // define functions
 // ======================================================================
 function init() {
+    if (WEBGL.isWebGLAvailable() === false) {
+        document.body.appendChild(WEBGL.getWebGLErrorMessage());
+    }
     var container = document.getElementById('container');
 
     createScene();
     createLights();
-    createCube();
+    createCubes();
+
+    //make cube rotate
+    //make many instances of cubes
+
+
 
 }
 
@@ -56,7 +175,7 @@ function createScene() {
     cameraControls.update();
 }
 
-function createLights(){
+function createLights() {
 
     // var mainLight = new THREE.PointLight(0xcccccc, 1.5, 250);
     // mainLight.position.y = 60;
@@ -71,8 +190,7 @@ function createLights(){
     // blueLight.position.set(0, 50, 550);
     // scene.add(blueLight);
 
-
-    var hemisphereLight, shadowLight;
+    //lights version 2
     // A hemisphere light is a gradient colored light;
     // the first parameter is the sky color, the second parameter is the ground color,
     // the third parameter is the intensity of the light
@@ -106,7 +224,13 @@ function createLights(){
     scene.add(shadowLight);
 }
 
-function createCube(){
+function createCubes() {
+
+    var cube1 = new Cube();
+    cube1.loadEverything();
+    //cube1.position.x += 2;
+    //scene.add(cube1);
+
     /********************* Room Scene ***********************/
     var loader = new THREE.FBXLoader();
     var roomMat = new THREE.MeshToonMaterial({
@@ -131,28 +255,31 @@ function createCube(){
     });
 
     /********************* Cube Frame ***********************/
-    var frame = new THREE.FBXLoader();
-    var flatMat = new THREE.MeshToonMaterial({
-        color: 0xf4f8ff,
-        transparent: true,
-        opacity: 0.6
 
-    });
 
-    frame.load('img/frame1.fbx', function(object) {
-        object.scale.x += 5;
-        object.scale.y += 5;
-        object.scale.z += 5;
-        object.traverse(function(child) {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.material = flatMat;
-            }
-        });
 
-        scene.add(object);
-    });
+    // var frame = new THREE.FBXLoader();
+    // var flatMat = new THREE.MeshToonMaterial({
+    //     color: 0xf4f8ff,
+    //     transparent: true,
+    //     opacity: 0.6
+    //
+    // });
+    //
+    // frame.load('img/frame1.fbx', function(object) {
+    //     object.scale.x += 5;
+    //     object.scale.y += 5;
+    //     object.scale.z += 5;
+    //     object.traverse(function(child) {
+    //         if (child.isMesh) {
+    //             child.castShadow = true;
+    //             child.receiveShadow = true;
+    //             child.material = flatMat;
+    //         }
+    //     });
+    //
+    //     scene.add(object);
+    // });
 
     /********************* Person ***********************/
     var person = new THREE.FBXLoader();
@@ -162,7 +289,7 @@ function createCube(){
 
     });
 
-    frame.load('img/on-phone-2.fbx', function(object) {
+    person.load('img/on-phone-2.fbx', function(object) {
         object.scale.x *= 0.3;
         object.scale.y *= 0.3;
         object.scale.z *= 0.3;
