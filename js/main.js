@@ -17,6 +17,10 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer;
 
+var cube1;
+var cubeObject;
+
+
 // ======================================================================
 // classes
 // ======================================================================
@@ -37,6 +41,13 @@ class Cube {
 
     //methods
     loadAll() {
+        // var cubeGroup = new THREE.Group();
+        // cubeGroup.add( this.frame );
+        // cubeGroup.add( this.room );
+        // cubeGroup.add( this.person );
+        //
+        // scene.add(cubeGroup);
+
         this.frame.load();
         this.room.load();
         this.person.load();
@@ -65,6 +76,7 @@ class Frame {
     load() {
         var self = this;
         this.frame.load(this.model, function(object) {
+            cubeObject = object;
             object.scale.x += 5;
             object.scale.y += 5;
             object.scale.z += 5;
@@ -75,9 +87,35 @@ class Frame {
                     child.material = self.material;
                 }
             });
+
+
             scene.add(object);
         });
     }
+
+    // cubeObject = new THREE.Object3D();
+    // scene.add(cubeObject);
+    //
+    // var loaderModello = new THREE.OBJLoader(manager);
+    // var OBJPath = 'spaceCraft3.obj';
+    // //spaceCraft = loaderModello.load(OBJPath, function(object) {
+    // loaderModello.load(OBJPath, function(object) {
+    //
+    //     //spaceCraft = object;
+    //     object.traverse(function(child) {
+    //         if (child instanceof THREE.Mesh) {
+    //             child.material.map = texture;
+    //         }
+    //     });
+    //     var scaleFactor = 7;
+    //     spaceCraft.scale.set(scaleFactor, scaleFactor, scaleFactor);
+    //     spaceCraft.rotation.set(0, 9.42, 0);
+    //     spaceCraft.model = object;
+    //     spaceCraft.add(spaceCraft.model);
+    //
+    // }, onProgress, onError);
+
+
 }
 
 //room class
@@ -159,8 +197,6 @@ class Person {
 init();
 animate();
 
-
-
 // ======================================================================
 // define functions
 // ======================================================================
@@ -173,9 +209,7 @@ function init() {
     createScene();
     createLights();
     createCubes();
-    //make cube rotate
     //make many instances of cubes
-
 
 }
 
@@ -250,13 +284,14 @@ function createLights() {
 }
 
 function createCubes() {
-
-    var cube1 = new Cube();
+    cube1 = new Cube();
     cube1.loadAll();
 
 }
 
-
+function rotateCube(scene) {
+    cube.rotation.x -= SPEED * 2;
+}
 
 function animate() {
     requestAnimationFrame(animate);
@@ -269,10 +304,12 @@ function animate() {
     // );
     // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
     //meshLoad.rotation.z = timer * 0.8;
-
     var delta = clock.getDelta();
     if (mixer) mixer.update(delta);
 
+    //make cube rotate
+    cubeObject.rotation.y += 0.01;
 
     renderer.render(scene, camera);
+
 }
