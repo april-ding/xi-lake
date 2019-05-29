@@ -17,12 +17,11 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer = [];
 
-
+//cubes
 var cube = [];
 var frameObject = [],
     roomObject = [],
     personObject = [];
-
 
 // ======================================================================
 // classes
@@ -270,29 +269,15 @@ function createCubes() {
         cube.push(new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', i));
         console.log('cube ' + i + ' is pushed');
     }
-
     for(var i = 0; i < 3; i++){
         cube[i].loadAll();
         console.log('cube ' + i + ' is loaded');
     }
-
-
-
-
 }
 
 function animate() {
-
     requestAnimationFrame(animate);
-    //var timer = Date.now() * 0.01;
 
-    // meshLoad.position.set(
-    //     Math.cos(timer * 0.1) * 30,
-    //     Math.abs(Math.cos(timer * 0.2)) * 20 + 5,
-    //     Math.sin(timer * 0.1) * 30
-    // );
-    // meshLoad.rotation.y = (Math.PI / 2) - timer * 0.1;
-    //meshLoad.rotation.z = timer * 0.8;
     var delta = clock.getDelta();
     for(var i = 0; i < 3; i ++){
         if (mixer[i]){
@@ -314,6 +299,7 @@ function animate() {
     roomObject[1].position.y = -50;
     personObject[1].position.y = -50;
 
+    //offset cube2
     frameObject[2].position.x = -200;
     roomObject[2].position.x = -200;
     personObject[2].position.x = -200;
@@ -323,7 +309,6 @@ function animate() {
     personObject[2].position.z = -50;
 
     //make cubes rotate
-
     frameObject[0].rotation.y += 0.01;
     roomObject[0].rotation.y += 0.01;
     personObject[0].rotation.y += 0.01;
