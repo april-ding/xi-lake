@@ -23,6 +23,12 @@ var frameObject = [],
     roomObject = [],
     personObject = [];
 
+var texture = THREE.ImageUtils.loadTexture( 'img/texture3.jpg' );
+
+var framePath = 'img/frame1.fbx';
+var roomPath = 'img/room1.fbx';
+var personPath = 'img/person-3.fbx';
+
 // ======================================================================
 // classes
 // ======================================================================
@@ -140,8 +146,10 @@ class Person {
         this.model = model;
         this.person = new THREE.FBXLoader();
         this.material = new THREE.MeshToonMaterial({
-            color: 0xf9b9a7,
-            skinning: true
+            //color: 0xf9b9a7,
+            skinning: true,
+            map: texture,
+            //wireframe: true
         });
     }
 
@@ -154,9 +162,12 @@ class Person {
         var self = this;
         this.person.load(this.model, function(object) {
             personObject.push(object);
-            object.scale.x *= 0.3;
-            object.scale.y *= 0.3;
-            object.scale.z *= 0.3;
+            // object.scale.x *= 0.3;
+            // object.scale.y *= 0.3;
+            // object.scale.z *= 0.3;
+            object.scale.x *= 3;
+            object.scale.y *= 3;
+            object.scale.z *= 3;
             mixer.push(new THREE.AnimationMixer(object));
             var action = mixer[i].clipAction(object.animations[0]);
             action.play();
@@ -266,7 +277,7 @@ function createLights() {
 
 function createCubes() {
     for(var i = 0; i < 3; i++){
-        cube.push(new Cube ('img/frame1.fbx', 'img/room1.fbx', 'img/on-phone-2.fbx', i));
+        cube.push(new Cube (framePath, roomPath, personPath, i));
         console.log('cube ' + i + ' is pushed');
     }
     for(var i = 0; i < 3; i++){
