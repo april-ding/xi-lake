@@ -9,8 +9,8 @@ var VIEW_ANGLE = 45;
 var ASPECT = WIDTH / HEIGHT;
 var NEAR = 1;
 var FAR = 500;
-var camera, scene, renderer;
-var cameraControls;
+var activeCamera, camera1, camera2, scene, renderer;
+var camera1Controls, camera2Controls;
 //lights
 var hemisphereLight, shadowLight;
 //for animations
@@ -23,11 +23,13 @@ var frameObject = [],
     roomObject = [],
     personObject = [];
 
-var texture = THREE.ImageUtils.loadTexture( 'img/texture3.jpg' );
+var texture = THREE.ImageUtils.loadTexture('img/texture3.jpg');
 
 var framePath = 'img/frame1.fbx';
 var roomPath = 'img/room1.fbx';
 var personPath = 'img/person-3.fbx';
+
+var group;
 
 // ======================================================================
 // classes
@@ -203,7 +205,11 @@ function init() {
     createLights();
     createCubes();
 
+    window.addEventListener('resize', onWindowResize, false);
+
+
 }
+
 
 function createScene() {
     // renderer
@@ -216,14 +222,22 @@ function createScene() {
     container.appendChild(renderer.domElement);
     // scene
     scene = new THREE.Scene();
-    // camera
-    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-    camera.position.set(75, 75, 200);
-    cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
-    cameraControls.target.set(0, 30, 0);
-    cameraControls.maxDistance = 800;
-    cameraControls.minDistance = 10;
-    cameraControls.update();
+    // camera1
+    camera1 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    camera1.position.set(75, 75, 200);
+    camera1Controls = new THREE.OrbitControls(camera1, renderer.domElement);
+    camera1Controls.target.set(0, 30, 0);
+    camera1Controls.maxDistance = 800;
+    camera1Controls.minDistance = 10;
+    camera1Controls.update();
+    //camera2
+    camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    camera2.position.set(75, 75, 50);
+    camera2Controls = new THREE.OrbitControls(camera2, renderer.domElement);
+    camera2Controls.target.set(0, 30, 0);
+    camera2Controls.maxDistance = 800;
+    camera2Controls.minDistance = 10;
+    camera2Controls.update();
 }
 
 function createLights() {
@@ -276,11 +290,11 @@ function createLights() {
 }
 
 function createCubes() {
-    for(var i = 0; i < 3; i++){
-        cube.push(new Cube (framePath, roomPath, personPath, i));
+    for (var i = 0; i < 3; i++) {
+        cube.push(new Cube(framePath, roomPath, personPath, i));
         console.log('cube ' + i + ' is pushed');
     }
-    for(var i = 0; i < 3; i++){
+    for (var i = 0; i < 3; i++) {
         cube[i].loadAll();
         console.log('cube ' + i + ' is loaded');
     }
@@ -290,8 +304,8 @@ function animate() {
     requestAnimationFrame(animate);
 
     var delta = clock.getDelta();
-    for(var i = 0; i < 3; i ++){
-        if (mixer[i]){
+    for (var i = 0; i < 3; i++) {
+        if (mixer[i]) {
             mixer[i].update(delta);
         }
     }
@@ -333,6 +347,17 @@ function animate() {
     personObject[2].rotation.y += -0.01;
 
 
-    renderer.render(scene, camera);
+    switchCameras();
+    renderer.render(scene, activeCamera);
 
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function switchCameras() {
+    activeCamera = camera2;
 }
