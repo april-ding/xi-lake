@@ -210,7 +210,6 @@ function init() {
 
 }
 
-
 function createScene() {
     // renderer
     renderer = new THREE.WebGLRenderer({
@@ -241,7 +240,7 @@ function createScene() {
 }
 
 function createLights() {
-
+    // //light version 1
     // var mainLight = new THREE.PointLight(0xcccccc, 1.5, 250);
     // mainLight.position.y = 60;
     // scene.add(mainLight);
@@ -300,17 +299,17 @@ function createCubes() {
     }
 }
 
-function animate() {
-    requestAnimationFrame(animate);
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
-    var delta = clock.getDelta();
-    for (var i = 0; i < 3; i++) {
-        if (mixer[i]) {
-            mixer[i].update(delta);
-        }
-    }
+function switchCameras() {
+    activeCamera = camera2;
+}
 
-
+function cubeOffsets(){
     //offset cube1
     frameObject[1].position.x = 100;
     roomObject[1].position.x = 100;
@@ -345,19 +344,23 @@ function animate() {
     frameObject[2].rotation.y += -0.01;
     roomObject[2].rotation.y += -0.01;
     personObject[2].rotation.y += -0.01;
+}
 
+// ======================================================================
+// animation & render
+// ======================================================================
+function animate() {
+    requestAnimationFrame(animate);
+
+    var delta = clock.getDelta();
+    for (var i = 0; i < 3; i++) {
+        if (mixer[i]) {
+            mixer[i].update(delta);
+        }
+    }
+    cubeOffsets();
 
     switchCameras();
     renderer.render(scene, activeCamera);
 
-}
-
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function switchCameras() {
-    activeCamera = camera2;
 }
