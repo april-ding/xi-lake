@@ -8,7 +8,7 @@ var HEIGHT = window.innerHeight;
 var VIEW_ANGLE = 45;
 var ASPECT = WIDTH / HEIGHT;
 var NEAR = 1;
-var FAR = 500;
+var FAR = 800;
 var activeCamera, camera1, camera2, scene, renderer;
 var camera1Controls, camera2Controls;
 //lights
@@ -21,15 +21,19 @@ var mixer = [];
 var cube = [];
 var frameObject = [],
     roomObject = [],
-    personObject = [];
+    personObject = [],
+    boundaryBoxObject = [];
 
 var texture = THREE.ImageUtils.loadTexture('img/texture3.jpg');
-
+//import paths
 var framePath = 'img/frame1.fbx';
 var roomPath = 'img/room1.fbx';
 var personPath = 'img/person-3.fbx';
+var boundaryBoxPath = 'img/boundary-box.fbx';
+//raycasting
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 
-var group;
 
 // ======================================================================
 // classes
@@ -37,13 +41,15 @@ var group;
 //cube class
 class Cube {
 
-    constructor(framePath, roomPath, personPath, i) {
+    constructor(framePath, roomPath, personPath, boundaryBoxPath, i) {
         //make frame
         this.frame = new Frame(framePath);
         //make room Scene
         this.room = new Room(roomPath);
         //make animated person
         this.person = new Person(personPath);
+        //make boundaryBox
+        this.boundaryBox = new BoundaryBox(boundaryBoxPath);
         //index
         this.i = i;
     }
@@ -59,6 +65,7 @@ class Cube {
         this.frame.load(this.i);
         this.room.load(this.i);
         this.person.load(this.i);
+        this.boundaryBox.load(this.i);
     }
 }
 
@@ -185,7 +192,41 @@ class Person {
         });
     }
 }
+//room class
+class BoundaryBox {
+    constructor(model) {
+        this.model = model;
+        this.boundaryBox = new THREE.FBXLoader();
+        this.material = new THREE.MeshToonMaterial({
+            transparent: true,
+            opacity: 0.3
+        });
 
+    }
+
+    //getter functions
+
+    //setter functions;
+
+    //methods
+    load(i) {
+        var self = this;
+        this.boundaryBox.load(this.model, function(object) {
+            boundaryBoxObject.push(object);
+            object.scale.x += 5;
+            object.scale.y += 5;
+            object.scale.z += 5;
+            object.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    child.material = self.material;
+                }
+            });
+            scene.add(boundaryBoxObject[i]);
+        });
+    }
+}
 // ======================================================================
 // call functions
 // ======================================================================
@@ -206,9 +247,12 @@ function init() {
     createCubes();
 
     window.addEventListener('resize', onWindowResize, false);
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 
 }
+
+//normal functions
 
 function createScene() {
     // renderer
@@ -290,65 +334,86 @@ function createLights() {
 
 function createCubes() {
     for (var i = 0; i < 3; i++) {
-        cube.push(new Cube(framePath, roomPath, personPath, i));
-        console.log('cube ' + i + ' is pushed');
+        cube.push(new Cube(framePath, roomPath, personPath, boundaryBoxPath, i));
     }
     for (var i = 0; i < 3; i++) {
         cube[i].loadAll();
-        console.log('cube ' + i + ' is loaded');
     }
-}
-
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function switchCameras() {
     activeCamera = camera2;
 }
 
-function cubeOffsets(){
+function cubeOffsets() {
     //offset cube1
     frameObject[1].position.x = 100;
     roomObject[1].position.x = 100;
     personObject[1].position.x = 100;
+    boundaryBoxObject[1].position.x = 100;
 
     frameObject[1].position.z = -200;
     roomObject[1].position.z = -200;
     personObject[1].position.z = -200;
+    boundaryBoxObject[1].position.z = -200;
 
     frameObject[1].position.y = -50;
     roomObject[1].position.y = -50;
     personObject[1].position.y = -50;
+    boundaryBoxObject[1].position.y = -50;
 
     //offset cube2
     frameObject[2].position.x = -200;
     roomObject[2].position.x = -200;
     personObject[2].position.x = -200;
+    boundaryBoxObject[2].position.x = -200;
 
     frameObject[2].position.z = -50;
     roomObject[2].position.z = -50;
     personObject[2].position.z = -50;
+    boundaryBoxObject[2].position.z = -50;
 
     //make cubes rotate
-    frameObject[0].rotation.y += 0.01;
-    roomObject[0].rotation.y += 0.01;
-    personObject[0].rotation.y += 0.01;
+    frameObject[0].rotation.y += 0.001;
+    roomObject[0].rotation.y += 0.001;
+    personObject[0].rotation.y += 0.001;
+    boundaryBoxObject[0].rotation.y += 0.001;
 
-    frameObject[1].rotation.y += -0.01;
-    roomObject[1].rotation.y += -0.01;
-    personObject[1].rotation.y += -0.01;
+    frameObject[1].rotation.y += 0.001;
+    roomObject[1].rotation.y += 0.001;
+    personObject[1].rotation.y += 0.001;
+    boundaryBoxObject[1].rotation.y += 0.001;
 
-    frameObject[2].rotation.y += -0.01;
-    roomObject[2].rotation.y += -0.01;
-    personObject[2].rotation.y += -0.01;
+    frameObject[2].rotation.y += 0.001;
+    roomObject[2].rotation.y += 0.001;
+    personObject[2].rotation.y += 0.001;
+    boundaryBoxObject[2].rotation.y += 0.001;
+}
+
+function spinOnHover(){
+    raycaster.setFromCamera(mouse, activeCamera);
+    var intersects = [];
+    for(var i = 0; i < 3; i++){
+        intersects.push(raycaster.intersectObject(boundaryBoxObject[i], true));
+        if(intersects[i].length > 0){
+            frameObject[i].rotation.y += 0.1;
+            roomObject[i].rotation.y += 0.1;
+            personObject[i].rotation.y += 0.1;
+            boundaryBoxObject[i].rotation.y += 0.1;
+
+        }else{
+            frameObject[i].rotation.y += 0.001;
+            roomObject[i].rotation.y += 0.001;
+            personObject[i].rotation.y += 0.001;
+            boundaryBoxObject[i].rotation.y += 0.001;
+        }
+    }
 }
 
 // ======================================================================
 // animation & render
 // ======================================================================
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -359,8 +424,25 @@ function animate() {
         }
     }
     cubeOffsets();
-
     switchCameras();
+    spinOnHover();
     renderer.render(scene, activeCamera);
+}
 
+// ======================================================================
+// event listener definitions
+// ======================================================================
+function onDocumentMouseMove(event) {
+    event.preventDefault();
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
