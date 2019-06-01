@@ -34,6 +34,11 @@ var boundaryBoxPath = 'img/boundary-box.fbx';
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
+var raycaster2 = new THREE.Raycaster();
+var mouse2 = new THREE.Vector2();
+
+
+
 
 // ======================================================================
 // classes
@@ -242,13 +247,16 @@ function init() {
     }
     var container = document.getElementById('container');
 
+
     createScene();
     createLights();
     createCubes();
 
+    activeCamera = camera1;
+
     window.addEventListener('resize', onWindowResize, false);
     document.addEventListener('mousemove', onDocumentMouseMove, false);
-
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 }
 
@@ -424,8 +432,9 @@ function animate() {
         }
     }
     cubeOffsets();
-    switchCameras();
+    //switchCameras();
     spinOnHover();
+    // testClick();
     renderer.render(scene, activeCamera);
 }
 
@@ -438,6 +447,33 @@ function onDocumentMouseMove(event) {
     // (-1 to +1) for both components
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+}
+
+
+
+function onDocumentMouseDown(event) {
+    event.preventDefault();
+
+    // mouse2.x = ( ( event.clientX - renderer.domElement.offsetLeft ) / renderer.domElement.clientWidth ) * 2 - 1;
+    // mouse2.y = - ( ( event.clientY - renderer.domElement.offsetTop ) / renderer.domElement.clientHeight ) * 2 + 1;
+
+    mouse2.x = ( ( event.clientX - container.offsetLeft ) / container.clientWidth ) * 2 - 1;
+   mouse2.y = - ( ( event.clientY - container.offsetTop ) / container.clientHeight ) * 2 + 1;
+    testClick();
+}
+
+function testClick(){
+
+    raycaster2.setFromCamera(mouse2, activeCamera);
+    var intersects2;
+    for(var i = 0; i < 3; i++){
+        intersects2= raycaster2.intersectObject(boundaryBoxObject[i], true);
+
+        if(intersects2.length > 0){
+            switchCameras();
+        }
+    }
 }
 
 
