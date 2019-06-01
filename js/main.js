@@ -204,7 +204,7 @@ class BoundaryBox {
         this.boundaryBox = new THREE.FBXLoader();
         this.material = new THREE.MeshToonMaterial({
             transparent: true,
-            opacity: 0.3
+            opacity: 0.5
         });
 
     }
@@ -280,14 +280,16 @@ function createScene() {
     camera1Controls.target.set(0, 30, 0);
     camera1Controls.maxDistance = 800;
     camera1Controls.minDistance = 10;
+    camera1Controls.enableZoom = false;
     camera1Controls.update();
     //camera2
     camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-    camera2.position.set(75, 75, 50);
+    camera2.position.set(30, 50, 0);
     camera2Controls = new THREE.OrbitControls(camera2, renderer.domElement);
     camera2Controls.target.set(0, 30, 0);
     camera2Controls.maxDistance = 800;
     camera2Controls.minDistance = 10;
+    camera2Controls.enableZoom = false;
     camera2Controls.update();
 }
 
@@ -452,6 +454,7 @@ function onDocumentMouseDown(event) {
         intersects2 = raycaster2.intersectObject(boundaryBoxObject[i], true);
 
         if (intersects2.length > 0) {
+            personObject[i].children[0].material.visible = false;
             switchCameras();
         }
     }
