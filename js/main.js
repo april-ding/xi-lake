@@ -398,22 +398,17 @@ function cubeOffsets() {
     boundaryBoxObject[2].rotation.y += 0.001;
 }
 
-function spinOnHover(){
+function spinOnHover() {
     raycaster.setFromCamera(mouse, activeCamera);
-    var intersects = [];
-    for(var i = 0; i < 3; i++){
-        intersects.push(raycaster.intersectObject(boundaryBoxObject[i], true));
-        if(intersects[i].length > 0){
+    var intersects;
+    for (var i = 0; i < 3; i++) {
+        intersects = raycaster.intersectObject(boundaryBoxObject[i], true);
+        if (intersects.length > 0) {
             frameObject[i].rotation.y += 0.1;
             roomObject[i].rotation.y += 0.1;
             personObject[i].rotation.y += 0.1;
             boundaryBoxObject[i].rotation.y += 0.1;
 
-        }else{
-            frameObject[i].rotation.y += 0.001;
-            roomObject[i].rotation.y += 0.001;
-            personObject[i].rotation.y += 0.001;
-            boundaryBoxObject[i].rotation.y += 0.001;
         }
     }
 }
@@ -432,9 +427,7 @@ function animate() {
         }
     }
     cubeOffsets();
-    //switchCameras();
     spinOnHover();
-    // testClick();
     renderer.render(scene, activeCamera);
 }
 
@@ -443,39 +436,26 @@ function animate() {
 // ======================================================================
 function onDocumentMouseMove(event) {
     event.preventDefault();
-    // calculate mouse position in normalized device coordinates
-    // (-1 to +1) for both components
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
 }
-
-
 
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
-    // mouse2.x = ( ( event.clientX - renderer.domElement.offsetLeft ) / renderer.domElement.clientWidth ) * 2 - 1;
-    // mouse2.y = - ( ( event.clientY - renderer.domElement.offsetTop ) / renderer.domElement.clientHeight ) * 2 + 1;
-
-    mouse2.x = ( ( event.clientX - container.offsetLeft ) / container.clientWidth ) * 2 - 1;
-   mouse2.y = - ( ( event.clientY - container.offsetTop ) / container.clientHeight ) * 2 + 1;
-    testClick();
-}
-
-function testClick(){
+    mouse2.x = ((event.clientX - container.offsetLeft) / container.clientWidth) * 2 - 1;
+    mouse2.y = -((event.clientY - container.offsetTop) / container.clientHeight) * 2 + 1;
 
     raycaster2.setFromCamera(mouse2, activeCamera);
     var intersects2;
-    for(var i = 0; i < 3; i++){
-        intersects2= raycaster2.intersectObject(boundaryBoxObject[i], true);
+    for (var i = 0; i < 3; i++) {
+        intersects2 = raycaster2.intersectObject(boundaryBoxObject[i], true);
 
-        if(intersects2.length > 0){
+        if (intersects2.length > 0) {
             switchCameras();
         }
     }
 }
-
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
