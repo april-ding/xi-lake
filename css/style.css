@@ -10,14 +10,47 @@ body {
   width: 100vw;
   height: 100vh;
   background: linear-gradient(#e4e0ba, #d9bffc);
-  cursor: auto;
+}
+
+#about-text {
+  width: 40vw;
+  height: 30vh;
+  position: absolute;
+  opacity: 0.8;
+  background-color: pink;
+  z-index: 200;
+  top: 35vh;
+  left: 30vw;
+  visibility: hidden;
+}
+#about-text .about-body {
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Source Code Pro", serif;
+}
+
+#cyo-container {
+  width: 80vw;
+  height: 70vh;
+  position: absolute;
+  opacity: 0.8;
+  background-color: plum;
+  z-index: 200;
+  top: 15vh;
+  left: 10vw;
+  visibility: hidden;
+}
+#cyo-container p {
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Source Code Pro", serif;
 }
 
 h1 {
   position: absolute;
-  font-size: 60px;
+  font-size: 40px;
   font-family: "Source Code Pro", serif;
-  top: 85%;
+  top: 3%;
   left: 3%;
   width: 100%;
   text-align: left;

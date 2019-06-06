@@ -1,3 +1,28 @@
+var aboutVisible = false;
+$( "#about" ).click(function() {
+
+    if(!aboutVisible){
+        $("#about-text").css("visibility", "visible");
+        aboutVisible = true;
+    }else if(aboutVisible){
+        $("#about-text").css("visibility", "hidden");
+        aboutVisible = false;
+    }
+});
+
+var cyoVisible = false;
+$( "#create" ).click(function() {
+
+    if(!cyoVisible){
+        $("#cyo-container").css("visibility", "visible");
+        cyoVisible = true;
+    }else if(cyoVisible){
+        $("#cyo-container").css("visibility", "hidden");
+        cyoVisible = false;
+    }
+});
+
+
 // ======================================================================
 // global variables
 // ======================================================================
@@ -16,6 +41,8 @@ var hemisphereLight, shadowLight;
 //for animations
 var clock = new THREE.Clock();
 var mixer = [];
+
+var cubeNum = 4;
 
 //cubes
 var cube = [];
@@ -124,7 +151,8 @@ class Room {
         this.model = model;
         this.room = new THREE.FBXLoader();
         this.material = new THREE.MeshToonMaterial({
-            color: 0xb3c4aa,
+            //color: 0xb3c4aa,
+            color: Math.random() * 0xffffff,
             skinning: true
         });
 
@@ -161,8 +189,9 @@ class Person {
         this.person = new THREE.FBXLoader();
         this.material = new THREE.MeshToonMaterial({
             //color: 0xf9b9a7,
+            color: Math.random() * 0xffffff,
             skinning: true,
-            map: texture,
+            //map: texture,
             //wireframe: true
         });
     }
@@ -343,10 +372,10 @@ function createLights() {
 }
 
 function createCubes() {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < cubeNum; i++) {
         cube.push(new Cube(framePath, roomPath, personPath, boundaryBoxPath, i));
     }
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < cubeNum; i++) {
         cube[i].loadAll();
     }
 }
@@ -383,27 +412,35 @@ function cubeOffsets() {
     personObject[2].position.z = -50;
     boundaryBoxObject[2].position.z = -50;
 
+    //offset cube3
+    frameObject[3].position.x = -300;
+    roomObject[3].position.x = -300;
+    personObject[3].position.x = -300;
+    boundaryBoxObject[3].position.x = -300;
+
+    frameObject[3].position.y = -150;
+    roomObject[3].position.y = -150;
+    personObject[3].position.y = -150;
+    boundaryBoxObject[3].position.y = -150;
+
+    frameObject[3].position.z = -200;
+    roomObject[3].position.z = -200;
+    personObject[3].position.z = -200;
+    boundaryBoxObject[3].position.z = -200;
+
     //make cubes rotate
-    frameObject[0].rotation.y += 0.001;
-    roomObject[0].rotation.y += 0.001;
-    personObject[0].rotation.y += 0.001;
-    boundaryBoxObject[0].rotation.y += 0.001;
-
-    frameObject[1].rotation.y += 0.001;
-    roomObject[1].rotation.y += 0.001;
-    personObject[1].rotation.y += 0.001;
-    boundaryBoxObject[1].rotation.y += 0.001;
-
-    frameObject[2].rotation.y += 0.001;
-    roomObject[2].rotation.y += 0.001;
-    personObject[2].rotation.y += 0.001;
-    boundaryBoxObject[2].rotation.y += 0.001;
+    for(var i = 0; i < cubeNum; i++){
+        frameObject[i].rotation.y += 0.001;
+        roomObject[i].rotation.y += 0.001;
+        personObject[i].rotation.y += 0.001;
+        boundaryBoxObject[i].rotation.y += 0.001;
+    }
 }
 
 function spinOnHover() {
     raycaster.setFromCamera(mouse, activeCamera);
     var intersects;
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < cubeNum; i++) {
         intersects = raycaster.intersectObject(boundaryBoxObject[i], true);
         if (intersects.length > 0) {
             frameObject[i].rotation.y += 0.1;
@@ -423,7 +460,7 @@ function animate() {
     requestAnimationFrame(animate);
 
     var delta = clock.getDelta();
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < cubeNum; i++) {
         if (mixer[i]) {
             mixer[i].update(delta);
         }
