@@ -422,10 +422,8 @@ function cubeOffsets() {
       personObject[i].children[0].material.visible = true;
       boundaryBoxObject[i].children[0].material.visible = true;
     }
-  }
 
-  //offset cube1
-  if (!cube1Selected) {
+    //offset cube1
     frameObject[1].position.x = 100;
     roomObject[1].position.x = 100;
     personObject[1].position.x = 100;
@@ -440,35 +438,36 @@ function cubeOffsets() {
     roomObject[1].position.y = -50;
     personObject[1].position.y = -50;
     boundaryBoxObject[1].position.y = -50;
+
+
+    //offset cube2
+    // frameObject[2].position.x = -200;
+    // roomObject[2].position.x = -200;
+    // personObject[2].position.x = -200;
+    // boundaryBoxObject[2].position.x = -200;
+    //
+    // frameObject[2].position.z = -50;
+    // roomObject[2].position.z = -50;
+    // personObject[2].position.z = -50;
+    // boundaryBoxObject[2].position.z = -50;
+    //
+    // //offset cube3
+    // frameObject[3].position.x = -300;
+    // roomObject[3].position.x = -300;
+    // personObject[3].position.x = -300;
+    // boundaryBoxObject[3].position.x = -300;
+    //
+    // frameObject[3].position.y = -150;
+    // roomObject[3].position.y = -150;
+    // personObject[3].position.y = -150;
+    // boundaryBoxObject[3].position.y = -150;
+    //
+    // frameObject[3].position.z = -200;
+    // roomObject[3].position.z = -200;
+    // personObject[3].position.z = -200;
+    // boundaryBoxObject[3].position.z = -200;
+
   }
-
-
-  //offset cube2
-  // frameObject[2].position.x = -200;
-  // roomObject[2].position.x = -200;
-  // personObject[2].position.x = -200;
-  // boundaryBoxObject[2].position.x = -200;
-  //
-  // frameObject[2].position.z = -50;
-  // roomObject[2].position.z = -50;
-  // personObject[2].position.z = -50;
-  // boundaryBoxObject[2].position.z = -50;
-  //
-  // //offset cube3
-  // frameObject[3].position.x = -300;
-  // roomObject[3].position.x = -300;
-  // personObject[3].position.x = -300;
-  // boundaryBoxObject[3].position.x = -300;
-  //
-  // frameObject[3].position.y = -150;
-  // roomObject[3].position.y = -150;
-  // personObject[3].position.y = -150;
-  // boundaryBoxObject[3].position.y = -150;
-  //
-  // frameObject[3].position.z = -200;
-  // roomObject[3].position.z = -200;
-  // personObject[3].position.z = -200;
-  // boundaryBoxObject[3].position.z = -200;
 
   //make cubes rotate
   for (var i = 0; i < cubeNum; i++) {
@@ -494,10 +493,6 @@ function spinOnHover() {
   }
 }
 
-function removeEntity() {
-  var selectedObject = scene.getObjectByName(person[1].name);
-  scene.remove(selectedObject);
-}
 
 // ======================================================================
 // animation & render
@@ -546,22 +541,24 @@ function onDocumentMouseDown(event) {
 
       cube1Selected = true;
 
-      //disable central cubes
-      frameObject[0].children[0].material.visible = false;
-      roomObject[0].children[0].material.visible = false;
-      personObject[0].children[0].material.visible = false;
-      boundaryBoxObject[0].children[0].material.visible = false;
+      if(i != 0){  //disable central cubes if other cubes are clicked
+        frameObject[0].children[0].material.visible = false;
+        roomObject[0].children[0].material.visible = false;
+        personObject[0].children[0].material.visible = false;
+        boundaryBoxObject[0].children[0].material.visible = false;
 
-      //move the selected cube to middle
-      frameObject[i].position.x = 0;
-      roomObject[i].position.x = 0;
-      boundaryBoxObject[i].position.x = 0;
-      frameObject[i].position.y = 0;
-      roomObject[i].position.y = 0;
-      boundaryBoxObject[i].position.y = 0;
-      frameObject[i].position.z = 0;
-      roomObject[i].position.z = 0;
-      boundaryBoxObject[i].position.z = 0;
+        //move the selected cube to middle
+        frameObject[i].position.x = 0;
+        roomObject[i].position.x = 0;
+        boundaryBoxObject[i].position.x = 0;
+        frameObject[i].position.y = 0;
+        roomObject[i].position.y = 0;
+        boundaryBoxObject[i].position.y = 0;
+        frameObject[i].position.z = 0;
+        roomObject[i].position.z = 0;
+        boundaryBoxObject[i].position.z = 0;
+
+      }
 
       activeCamera = camera2;
     }
@@ -573,9 +570,3 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
-$("#about").click(function() {
-  removeEntity();
-
-
-});
