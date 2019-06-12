@@ -10,6 +10,7 @@ body {
   width: 100vw;
   height: 100vh;
   background: linear-gradient(#e4e0ba, #d9bffc);
+  overflow: hidden;
 }
 
 #about-text {
@@ -48,8 +49,10 @@ body {
 
 h1 {
   position: absolute;
-  font-size: 40px;
+  font-size: 36px;
   font-family: "Source Code Pro", serif;
+  text-transform: uppercase;
+  font-weight: 600;
   top: 3%;
   left: 3%;
   width: 100%;
@@ -60,21 +63,34 @@ h1 {
 
 #about {
   position: absolute;
-  font-size: 20px;
+  font-size: 14px;
   font-family: "Source Code Pro", serif;
-  bottom: 5%;
+  text-transform: uppercase;
+  bottom: 3%;
   right: 3%;
   width: 100%;
   text-align: right;
   z-index: 100;
   display: block;
 }
-
+#back {
+  position: absolute;
+  font-size: 14px;
+  font-family: "Source Code Pro", serif;
+  text-transform: uppercase;
+  top: 3%;
+  right: 3%;
+  width: 100%;
+  text-align: right;
+  z-index: 100;
+  display: block;
+}
 #create {
   position: absolute;
-  font-size: 20px;
+  font-size: 14px;
   font-family: "Source Code Pro", serif;
-  top: 3%;
+  text-transform: uppercase;
+  bottom: 6%;
   right: 3%;
   width: 100%;
   text-align: right;
