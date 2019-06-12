@@ -12,17 +12,24 @@ $("#about").click(function() {
     aboutVisible = false;
   }
 
-
 });
 
 var cyoVisible = false;
 $("#create").click(function() {
 
   if (!cyoVisible) {
-    $("#cyo-container").css("visibility", "visible");
+    for (var i = 0; i < cubeNum; i++) {
+      console.log("hid " + i);
+
+      frameObject[i].children[0].material.visible = true;
+      roomObject[i].children[0].material.visible = true;
+      personObject[i].children[0].material.visible = true;
+      boundaryBoxObject[i].children[0].material.visible = true;
+    }
+    $(".form").css("visibility", "visible");
     cyoVisible = true;
   } else if (cyoVisible) {
-    $("#cyo-container").css("visibility", "hidden");
+    $(".form").css("visibility", "hidden");
     cyoVisible = false;
   }
 });
@@ -410,7 +417,7 @@ function checkCamera() {
     }
   }
 }
-var cube1Selected = false;
+
 
 function cubeOffsets() {
   //reset all cubes' visibility
@@ -538,8 +545,6 @@ function onDocumentMouseDown(event) {
 
     if (intersects2.length > 0) {
       personObject[i].children[0].material.visible = false; //disable that person
-
-      cube1Selected = true;
 
       if(i != 0){  //disable central cubes if other cubes are clicked
         frameObject[0].children[0].material.visible = false;
