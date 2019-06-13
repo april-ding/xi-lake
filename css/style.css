@@ -11,6 +11,8 @@ body {
   height: 100vh;
   background: linear-gradient(#e4e0ba, #d9bffc);
   overflow: hidden;
+
+  cursor: url('../img/cursor.png'), auto;
 }
 
 #about-text {

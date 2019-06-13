@@ -59,7 +59,7 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer = [];
 
-var cubeNum = 2;
+var cubeNum = 4;
 
 //cubes
 var cube = [];
@@ -448,31 +448,31 @@ function cubeOffsets() {
 
 
     //offset cube2
-    // frameObject[2].position.x = -200;
-    // roomObject[2].position.x = -200;
-    // personObject[2].position.x = -200;
-    // boundaryBoxObject[2].position.x = -200;
-    //
-    // frameObject[2].position.z = -50;
-    // roomObject[2].position.z = -50;
-    // personObject[2].position.z = -50;
-    // boundaryBoxObject[2].position.z = -50;
-    //
-    // //offset cube3
-    // frameObject[3].position.x = -300;
-    // roomObject[3].position.x = -300;
-    // personObject[3].position.x = -300;
-    // boundaryBoxObject[3].position.x = -300;
-    //
-    // frameObject[3].position.y = -150;
-    // roomObject[3].position.y = -150;
-    // personObject[3].position.y = -150;
-    // boundaryBoxObject[3].position.y = -150;
-    //
-    // frameObject[3].position.z = -200;
-    // roomObject[3].position.z = -200;
-    // personObject[3].position.z = -200;
-    // boundaryBoxObject[3].position.z = -200;
+    frameObject[2].position.x = -200;
+    roomObject[2].position.x = -200;
+    personObject[2].position.x = -200;
+    boundaryBoxObject[2].position.x = -200;
+
+    frameObject[2].position.z = -50;
+    roomObject[2].position.z = -50;
+    personObject[2].position.z = -50;
+    boundaryBoxObject[2].position.z = -50;
+
+    //offset cube3
+    frameObject[3].position.x = -300;
+    roomObject[3].position.x = -300;
+    personObject[3].position.x = -300;
+    boundaryBoxObject[3].position.x = -300;
+
+    frameObject[3].position.y = -150;
+    roomObject[3].position.y = -150;
+    personObject[3].position.y = -150;
+    boundaryBoxObject[3].position.y = -150;
+
+    frameObject[3].position.z = -200;
+    roomObject[3].position.z = -200;
+    personObject[3].position.z = -200;
+    boundaryBoxObject[3].position.z = -200;
 
   }
 
