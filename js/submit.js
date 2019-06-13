@@ -52,6 +52,7 @@ var ASPECT = WIDTH / HEIGHT;
 var NEAR = 1;
 var FAR = 800;
 var activeCamera, camera1, camera2, scene, renderer;
+var scene2;
 var camera1Controls, camera2Controls;
 //lights
 var hemisphereLight, shadowLight;
@@ -343,6 +344,8 @@ function createScene() {
   camera2Controls.update();
 }
 
+
+
 function createLights() {
   // //light version 1
   // var mainLight = new THREE.PointLight(0xcccccc, 1.5, 250);
@@ -432,9 +435,16 @@ function cubeOffsets() {
     for (var i = 0; i < cubeNum; i++) {
 
       frameObject[i].children[0].material.visible = true;
-      // roomObject[i].children[0].material.visible = true;
-      // personObject[i].children[0].material.visible = true;
-      // boundaryBoxObject[i].children[0].material.visible = true;
+      if(roomObject[i] != null){
+        roomObject[i].children[0].material.visible = true;
+      }
+      if(personObject[i] != null){
+        personObject[i].children[0].material.visible = true;
+      }
+      if(boundaryBoxObject[i] != null){
+        boundaryBoxObject[i].children[0].material.visible = true;
+      }
+
     }
 
     //offset cube1
@@ -486,6 +496,16 @@ function cubeOffsets() {
   //make cubes rotate
   for (var i = 0; i < cubeNum; i++) {
     frameObject[i].rotation.y += 0.001;
+    if(roomObject[i] != null){
+      roomObject[i].rotation.y += 0.001;
+    }
+    if(personObject[i] != null){
+      personObject[i].rotation.y += 0.001;
+    }
+    if(boundaryBoxObject[i] != null){
+      boundaryBoxObject[i].rotation.y += 0.001;
+    }
+
     // roomObject[i].rotation.y += 0.001;
     // personObject[i].rotation.y += 0.001;
     // boundaryBoxObject[i].rotation.y += 0.001;
