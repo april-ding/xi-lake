@@ -11,7 +11,9 @@
 </head>
 
 <body>
-  <!-- <h1><a href = "food.html">the cubicle</a></h1> -->
+
+
+  <div id="bg"></div>
   <h1><a href = "index.html">the cubicle</a></h1>
   <h2 id="about">about</h2>
   <h2 id="home"><a href = "index.html">back to home page</a></h2>
@@ -20,34 +22,13 @@
   <div class="form">
     <form>
       <fieldset>
-        <legend><span class="number">1</span> CREATE YOUR CUBICLE!</legend>
-        <input type="text" name="field1" placeholder="Your Name *">
-        <input type="email" name="field2" placeholder="Your Email *">
-        <textarea name="field3" placeholder="About yourself"></textarea>
-        <label for="job">Interests:</label>
-        <select id="job" name="field4">
-          <optgroup label="Indoors">
-            <option value="fishkeeping">Fishkeeping</option>
-            <option value="reading">Reading</option>
-            <option value="boxing">Boxing</option>
-            <option value="debate">Debate</option>
-            <option value="gaming">Gaming</option>
-            <option value="snooker">Snooker</option>
-            <option value="other_indoor">Other</option>
-          </optgroup>
-          <optgroup label="Outdoors">
-            <option value="football">Football</option>
-            <option value="swimming">Swimming</option>
-            <option value="fishing">Fishing</option>
-            <option value="climbing">Climbing</option>
-            <option value="cycling">Cycling</option>
-            <option value="other_outdoor">Other</option>
-          </optgroup>
-        </select>
+        <legend><span class="number"></span>Step 1: About You!</legend>
+        <input type="text" name="field1" placeholder="Your name">
+        <input type="email" name="field2" placeholder="Your profession">
       </fieldset>
       <fieldset>
-        <legend><span class="number">2</span> Additional Info</legend>
-        <textarea name="field3" placeholder="About Your School"></textarea>
+        <legend><span class="number"></span>Step 2: Choose Your Room</legend>
+        <textarea name="field3" placeholder="Share your story..."></textarea>
       </fieldset>
       <input type="submit" value="Submit" />
     </form>
@@ -81,7 +62,7 @@
   <script src="js/WebGL.js"></script>
   <script src="js/stats.min.js"></script>
 
-  <script type="text/javascript" src="js/submit.js"></script>
+ <script type="text/javascript" src="js/submit.js"></script>
 </body>
 
 </html>

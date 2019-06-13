@@ -1,22 +1,26 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap");
 #container {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  right: 30vw;
   overflow: hidden;
+  z-index: 10;
 }
 
-body {
+
+#bg{
+  position: fixed;
   width: 100vw;
   height: 100vh;
   background: linear-gradient(#e4e0ba, #d9bffc);
-  overflow: hidden;
+  z-index: -100;
 }
 
 #about-text {
   width: 40vw;
   height: 30vh;
-  position: absolute;
+  position: fixed;
   opacity: 0.8;
   background-color: pink;
   z-index: 200;
@@ -33,7 +37,7 @@ body {
 #cyo-container {
   width: 80vw;
   height: 70vh;
-  position: absolute;
+  position: fixed;
   opacity: 0.8;
   background-color: plum;
   z-index: 200;
@@ -47,11 +51,12 @@ body {
   font-family: "Source Code Pro", serif;
 }
 
-h1 {
-  position: absolute;
+h1 a{
+  position: fixed;
   font-size: 36px;
   font-family: "Source Code Pro", serif;
   text-transform: uppercase;
+  text-decoration: none;
   font-weight: 600;
   top: 3%;
   left: 3%;
@@ -59,14 +64,20 @@ h1 {
   text-align: left;
   z-index: 100;
   display: block;
+  &::after{
+    text-decoration: none;
+  }
 }
+/* h1::after{
+  text-decoration: none;
+} */
 
 #about {
-  position: absolute;
+  position: fixed;
   font-size: 14px;
   font-family: "Source Code Pro", serif;
   text-transform: uppercase;
-  bottom: 3%;
+  top: 6%;
   right: 3%;
   width: 100%;
   text-align: right;
@@ -74,10 +85,11 @@ h1 {
   display: block;
 }
 #back {
-  position: absolute;
+  position: fixed;
   font-size: 14px;
   font-family: "Source Code Pro", serif;
   text-transform: uppercase;
+
   top: 3%;
   right: 3%;
   width: 100%;
@@ -85,34 +97,40 @@ h1 {
   z-index: 100;
   display: block;
 }
-#create {
-  position: absolute;
+#home a {
+  position: fixed;
   font-size: 14px;
   font-family: "Source Code Pro", serif;
   text-transform: uppercase;
-  bottom: 6%;
+  text-decoration: none;
+  top: 3%;
   right: 3%;
   width: 100%;
   text-align: right;
   z-index: 100;
   display: block;
+
+}
+#home a::after{
+  text-decoration: none;
+  color: black;
 }
 
+
 .form{
-  visibility: hidden;
-	width: 80vw;
-  height: 80vh;
+
+	width: 50vw;
   position: absolute;
   top: 10vh;
-  left: 10vw;
+  left: 40vw;
 
   z-index: 200;
 	padding: 10px 20px;
-	background: #f4f7f8;
+	/* background: #f4f7f8; */
 
 	padding: 20px;
-	background: #f4f7f8;
-	border-radius: 8px;
+	/* background: #f4f7f8;
+	border-radius: 8px; */
 	font-family: "Source Code Pro", serif;
 
 }
@@ -171,7 +189,7 @@ h1 {
 	-webkit-appearance: menulist-button;
 	height:35px;
 }
-.form .number {
+/* .form .number {
 	background: #1abc9c;
 	color: #fff;
 	height: 30px;
@@ -183,27 +201,31 @@ h1 {
 	text-align: center;
 	text-shadow: 0 1px 0 rgba(255,255,255,0.2);
 	border-radius: 15px 15px 15px 0px;
-}
+} */
 
 .form input[type="submit"],
 .form input[type="button"]
 {
 	position: relative;
 	display: block;
+
 	padding: 19px 39px 18px 39px;
 	color: #FFF;
 	margin: 0 auto;
-	background: #1abc9c;
+	background: mediumSlateBlue;
+  Opacity: 0.3;
 	font-size: 18px;
 	text-align: center;
 	font-style: normal;
+  	border-radius: 4px;
 	width: 100%;
-	border: 1px solid #16a085;
-	border-width: 1px 1px 3px;
+	/* border: 1px solid #16a085; */
+	/* border-width: 1px 1px 3px; */
 	margin-bottom: 10px;
 }
 .form input[type="submit"]:hover,
 .form input[type="button"]:hover
 {
-	background: #109177;
+	background: mediumSlateBlue;
+  opacity: 0.5;
 }

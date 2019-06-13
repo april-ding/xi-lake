@@ -59,7 +59,7 @@ var hemisphereLight, shadowLight;
 var clock = new THREE.Clock();
 var mixer = [];
 
-var cubeNum = 2;
+var cubeNum = 1;
 
 //cubes
 var cube = [];
@@ -114,6 +114,9 @@ class Cube {
     this.room.load(this.i);
     this.person.load(this.i);
     this.boundaryBox.load(this.i);
+  }
+  loadFrame(){
+    this.frame.load(this.i);
   }
 }
 
@@ -297,11 +300,12 @@ function init() {
   createLights();
   createCubes();
 
+
   activeCamera = camera1;
 
   window.addEventListener('resize', onWindowResize, false);
-  document.addEventListener('mousemove', onDocumentMouseMove, false);
-  document.addEventListener('mousedown', onDocumentMouseDown, false);
+//  document.addEventListener('mousemove', onDocumentMouseMove, false);
+  //document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 }
 
@@ -326,7 +330,7 @@ function createScene() {
   camera1Controls.maxDistance = 800;
   camera1Controls.minDistance = 10;
   camera1Controls.enableZoom = false;
-
+  camera1Controls.enableRotate = false;
   camera1Controls.update();
   //camera2
   camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -392,9 +396,11 @@ function createCubes() {
   for (var i = 0; i < cubeNum; i++) {
     cube.push(new Cube(framePath, roomPath, personPath, boundaryBoxPath, i));
   }
-  for (var i = 0; i < cubeNum; i++) {
-    cube[i].loadAll();
-  }
+  // for (var i = 0; i < cubeNum; i++) {
+  //   cube[i].loadAll();
+  // }
+  cube[0].loadFrame();
+
 }
 
 
@@ -426,26 +432,26 @@ function cubeOffsets() {
     for (var i = 0; i < cubeNum; i++) {
 
       frameObject[i].children[0].material.visible = true;
-      roomObject[i].children[0].material.visible = true;
-      personObject[i].children[0].material.visible = true;
-      boundaryBoxObject[i].children[0].material.visible = true;
+      // roomObject[i].children[0].material.visible = true;
+      // personObject[i].children[0].material.visible = true;
+      // boundaryBoxObject[i].children[0].material.visible = true;
     }
 
     //offset cube1
-    frameObject[1].position.x = 100;
-    roomObject[1].position.x = 100;
-    personObject[1].position.x = 100;
-    boundaryBoxObject[1].position.x = 100;
-
-    frameObject[1].position.z = -200;
-    roomObject[1].position.z = -200;
-    personObject[1].position.z = -200;
-    boundaryBoxObject[1].position.z = -200;
-
-    frameObject[1].position.y = -50;
-    roomObject[1].position.y = -50;
-    personObject[1].position.y = -50;
-    boundaryBoxObject[1].position.y = -50;
+    // frameObject[1].position.x = 100;
+    // roomObject[1].position.x = 100;
+    // personObject[1].position.x = 100;
+    // boundaryBoxObject[1].position.x = 100;
+    //
+    // frameObject[1].position.z = -200;
+    // roomObject[1].position.z = -200;
+    // personObject[1].position.z = -200;
+    // boundaryBoxObject[1].position.z = -200;
+    //
+    // frameObject[1].position.y = -50;
+    // roomObject[1].position.y = -50;
+    // personObject[1].position.y = -50;
+    // boundaryBoxObject[1].position.y = -50;
 
 
     //offset cube2
@@ -480,9 +486,9 @@ function cubeOffsets() {
   //make cubes rotate
   for (var i = 0; i < cubeNum; i++) {
     frameObject[i].rotation.y += 0.001;
-    roomObject[i].rotation.y += 0.001;
-    personObject[i].rotation.y += 0.001;
-    boundaryBoxObject[i].rotation.y += 0.001;
+    // roomObject[i].rotation.y += 0.001;
+    // personObject[i].rotation.y += 0.001;
+    // boundaryBoxObject[i].rotation.y += 0.001;
   }
 }
 
@@ -516,7 +522,7 @@ function animate() {
     }
   }
   cubeOffsets();
-  spinOnHover();
+  //spinOnHover();
 
   checkCamera();
   renderer.render(scene, activeCamera);
