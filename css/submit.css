@@ -8,8 +8,7 @@
   z-index: 10;
 }
 
-
-#bg{
+#bg {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -28,6 +27,7 @@
   left: 30vw;
   visibility: hidden;
 }
+
 #about-text .about-body {
   padding: 10px;
   font-size: 16px;
@@ -45,13 +45,14 @@
   left: 10vw;
   visibility: hidden;
 }
+
 #cyo-container p {
   padding: 10px;
   font-size: 16px;
   font-family: "Source Code Pro", serif;
 }
 
-h1 a{
+h1 a {
   position: fixed;
   font-size: 36px;
   font-family: "Source Code Pro", serif;
@@ -64,14 +65,14 @@ h1 a{
   text-align: left;
   z-index: 100;
   display: block;
-  &::after{
-    text-decoration: none;
-  }
 }
+h1 a::after {
+  text-decoration: none;
+}
+
 /* h1::after{
   text-decoration: none;
 } */
-
 #about {
   position: fixed;
   font-size: 14px;
@@ -84,12 +85,12 @@ h1 a{
   z-index: 100;
   display: block;
 }
+
 #back {
   position: fixed;
   font-size: 14px;
   font-family: "Source Code Pro", serif;
   text-transform: uppercase;
-
   top: 3%;
   right: 3%;
   width: 100%;
@@ -97,6 +98,7 @@ h1 a{
   z-index: 100;
   display: block;
 }
+
 #home a {
   position: fixed;
   font-size: 14px;
@@ -109,107 +111,108 @@ h1 a{
   text-align: right;
   z-index: 100;
   display: block;
-
 }
-#home a::after{
+
+#home a::after {
   text-decoration: none;
   color: black;
 }
 
-
-.form{
-
-	width: 50vw;
+.form {
+  width: 50vw;
   position: absolute;
   top: 10vh;
   left: 40vw;
-
   z-index: 200;
-	padding: 10px 20px;
-	/* background: #f4f7f8; */
-
-	padding: 20px;
-	/* background: #f4f7f8;
-	border-radius: 8px; */
-	font-family: "Source Code Pro", serif;
-
+  padding: 10px 20px;
+  /* background: #f4f7f8; */
+  padding: 20px;
+  /* background: #f4f7f8;
+  border-radius: 8px; */
+  font-family: "Source Code Pro", serif;
 }
-.form fieldset{
-	border: none;
+
+.form fieldset {
+  border: none;
 }
+
 .form legend {
-	font-size: 1.4em;
-	margin-bottom: 10px;
+  font-size: 1.4em;
+  margin-bottom: 10px;
 }
+
 .form label {
-	display: block;
-	margin-bottom: 8px;
+  display: block;
+  margin-bottom: 8px;
 }
-.form input[type="text"],
-.form input[type="date"],
-.form input[type="datetime"],
-.form input[type="email"],
-.form input[type="number"],
-.form input[type="search"],
-.form input[type="time"],
-.form input[type="url"],
-/* .form textarea, */
+
+.form input[type=text],
+.form input[type=date],
+.form input[type=datetime],
+.form input[type=email],
+.form input[type=number],
+.form input[type=search],
+.form input[type=time],
+.form input[type=url],
 .form select {
-	font-family: "Source Code Pro", serif;
-	background: rgba(255,255,255,.1);
-	border: none;
-	border-radius: 4px;
-	font-size: 15px;
-	margin: 0;
-	outline: 0;
-	padding: 10px;
-	width: 100%;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	background-color: #e8eeef;
-	color:#8a97a0;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	margin-bottom: 30px;
+  font-family: "Source Code Pro", serif;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  margin: 0;
+  outline: 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin-bottom: 30px;
 }
 
 .form textarea {
   font-family: "Source Code Pro", serif;
-	background: rgba(255,255,255,.1);
-	border: none;
-	border-radius: 4px;
-	font-size: 15px;
-	margin: 0;
-	outline: 0;
-	padding: 10px;
-	width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  margin: 0;
+  outline: 0;
+  padding: 10px;
+  width: 100%;
   height: 20vh;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	background-color: #e8eeef;
-	color:#8a97a0;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	margin-bottom: 30px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin-bottom: 30px;
 }
-.form input[type="text"]:focus,
-.form input[type="date"]:focus,
-.form input[type="datetime"]:focus,
-.form input[type="email"]:focus,
-.form input[type="number"]:focus,
-.form input[type="search"]:focus,
-.form input[type="time"]:focus,
-.form input[type="url"]:focus,
+
+.form input[type=text]:focus,
+.form input[type=date]:focus,
+.form input[type=datetime]:focus,
+.form input[type=email]:focus,
+.form input[type=number]:focus,
+.form input[type=search]:focus,
+.form input[type=time]:focus,
+.form input[type=url]:focus,
 .form textarea:focus,
-.form select:focus{
-	background: #d2d9dd;
+.form select:focus {
+  background: #d2d9dd;
 }
-.form select{
-	-webkit-appearance: menulist-button;
-	height:35px;
+
+.form select {
+  -webkit-appearance: menulist-button;
+  height: 35px;
 }
+
 /* .form .number {
 	background: #1abc9c;
 	color: #fff;
@@ -223,61 +226,59 @@ h1 a{
 	text-shadow: 0 1px 0 rgba(255,255,255,0.2);
 	border-radius: 15px 15px 15px 0px;
 } */
-
-.form input[type="submit"],
-.form input[type="button"]
-{
-	position: relative;
-	display: block;
-
-	padding: 19px 39px 18px 39px;
-	color: #FFF;
-	margin: 0 auto;
-	background: mediumSlateBlue;
+.form input[type=submit],
+.form input[type=button] {
+  position: relative;
+  display: block;
+  padding: 19px 39px 18px 39px;
+  color: #FFF;
+  margin: 0 auto;
+  background: mediumSlateBlue;
   Opacity: 0.3;
-	font-size: 18px;
-	text-align: center;
-	font-style: normal;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
   border-radius: 4px;
-	width: 100%;
-	/* border: 1px solid #16a085; */
-	/* border-width: 1px 1px 3px; */
-	margin-bottom: 10px;
+  width: 100%;
+  /* border: 1px solid #16a085; */
+  /* border-width: 1px 1px 3px; */
+  margin-bottom: 10px;
 }
-.form input[type="submit"]:hover,
-.form input[type="button"]:hover
-{
-	background: mediumSlateBlue;
+
+.form input[type=submit]:hover,
+.form input[type=button]:hover {
+  background: mediumSlateBlue;
   opacity: 0.5;
 }
 
-#room{
+#room {
   border: 1px solid red;
   width: 500px;
   height: 500px;
 }
 
-#submit{
+#submit {
   position: relative;
-	display: block;
-
-	padding: 19px 39px 18px 39px;
-	color: #FFF;
-	margin: 0 auto;
-	background: mediumSlateBlue;
+  display: block;
+  padding: 19px 39px 18px 39px;
+  color: #FFF;
+  margin: 0 auto;
+  background: mediumSlateBlue;
   Opacity: 0.3;
-	font-size: 18px;
-	text-align: center;
-	font-style: normal;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
   border-radius: 4px;
-	width: 20%;
+  width: 20%;
   text-decoration: none;
-	/* border: 1px solid #16a085; */
-	/* border-width: 1px 1px 3px; */
-	margin-bottom: 10px;
+  /* border: 1px solid #16a085; */
+  /* border-width: 1px 1px 3px; */
+  margin-bottom: 10px;
 }
 
-#submit:hover{
+#submit:hover {
   background: mediumSlateBlue;
   opacity: 0.5;
 }
+
+/*# sourceMappingURL=submit.css.map */
